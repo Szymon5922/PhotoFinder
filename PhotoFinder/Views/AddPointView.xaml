@@ -1,0 +1,39 @@
+﻿<Window x:Class="PhotoFinder.Views.AddPointView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PhotoFinder.Views"
+        mc:Ignorable="d"
+        Title="AddPointView" Height="350" Width="250">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="3*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Row="0" Text="Enter point data" VerticalAlignment="Center" Margin="10"/>
+        <StackPanel Grid.Row="1" Margin="10" VerticalAlignment="Center" Grid.ColumnSpan="2">
+            <Label Content="X:"/>
+            <TextBox x:Name="PointX" PreviewTextInput="NumberValidationTextBox"/>
+            <Label Content="Y:"/>
+            <TextBox x:Name="PointY" PreviewTextInput="NumberValidationTextBox"/>
+            <Label Content="Z:"/>
+            <TextBox x:Name="PointZ" PreviewTextInput="NumberValidationTextBox"/>
+        </StackPanel>
+        <StackPanel Grid.Row="2" Grid.ColumnSpan="2" Orientation="Horizontal"
+                    VerticalAlignment="Stretch"  Margin="10" >
+            <Button Content="Choose file" Click="BrowseFile_Click"/>
+            <TextBox x:Name="ImagePathTextBox" IsReadOnly="True"/>
+        </StackPanel>
+        <Button x:Name="AddPoint" Content="Add" Click="AddPoint_Click"
+                Grid.Column="0" Grid.Row="3" Margin="15"/>
+        <Button x:Name="Cancel" Content="Cancel" Click="Cancel_Click"
+                Grid.Column="1" Grid.Row="3" Margin="15"/>
+    </Grid>
+</Window>
