@@ -73,7 +73,7 @@
            Stretch="Uniform"
            Margin="10" />
 
-        <Button x:Name="GenerateImages" Content="Generuj obrazy" Click="GenerateImages_Click"
+        <Button x:Name="GenerateImages" Content="Generate images" Click="GenerateImages_Click"
                 Grid.Column="6" Grid.Row="5"/>
     </Grid>
 </UserControl>

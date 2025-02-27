@@ -52,14 +52,14 @@
             </DataGrid.Columns>
         </DataGrid>
         <Button x:Name="AddTargetFromShp" Grid.Column="0" Grid.Row="2" Click="AddTargetFromShp_Click"
-                Content="Dodaj z SHP" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,5,0" Padding="3"/>
+                Content="Add from SHP" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,5,0" Padding="3"/>
         <Button x:Name="AddTargetManually" Grid.Column="1" Grid.Row="2" IsEnabled="False"
-                Content="Dodaj ręcznie" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,0,0,0" Padding="3"/>
+                Content="Add manually" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,0,0,0" Padding="3"/>
         <Button x:Name="DeleteTarget" Grid.Column="2" Grid.Row="2"
-                Content="Usuń obiekt" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="3"/>
+                Content="Delete" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="3"/>
         <Button x:Name="AddPhotoFolder" Click="AddPhotoFolder_Click"
-                Grid.Column="4" Grid.Row="2" Content="Dodaj folder" HorizontalAlignment="Center"  VerticalAlignment="Center" Padding="3"/>
-        <Button x:Name="DeletePhotoFolder" Grid.Column="5" Grid.Row="2" Content="Usuń folder"
+                Grid.Column="4" Grid.Row="2" Content="Add folder" HorizontalAlignment="Center"  VerticalAlignment="Center" Padding="3"/>
+        <Button x:Name="DeletePhotoFolder" Grid.Column="5" Grid.Row="2" Content="Delete"
                 HorizontalAlignment="Center"  VerticalAlignment="Center" Padding="3"/>
         <Button x:Name="FindPhotos" Content="Find photos" Command="{Binding DataContext.ShowResultsViewCommand, RelativeSource={RelativeSource AncestorType=Window}}"
                 Grid.Column="5" Grid.Row="5" Grid.ColumnSpan="1"
