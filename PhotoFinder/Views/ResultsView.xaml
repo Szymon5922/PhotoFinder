@@ -1,0 +1,79 @@
+﻿<UserControl x:Class="PhotoFinder.Views.ResultsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:PhotoFinder.Views"
+             xmlns:viewModels="clr-namespace:PhotoFinder.ViewModels"
+             xmlns:converters="clr-namespace:PhotoFinder.Converters"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="0.25*"/>
+        </Grid.RowDefinitions>
+        
+        <ListView ItemsSource="{Binding Results}" 
+              SelectedItem="{Binding SelectedResult, Mode=TwoWay}" 
+              Grid.Column="0" Grid.Row="0" Grid.RowSpan="3" Margin="5">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding Target.ImageName}" FontWeight="Bold" />
+                        <TextBlock Text=" - " />
+                        <TextBlock Text="{Binding Target.Position}" />
+                    </StackPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+        <Image Source="{Binding SelectedImage}" 
+           Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2" Grid.RowSpan="3" 
+           Stretch="Uniform"
+           Margin="10" />
+
+        <ListView ItemsSource="{Binding FoundPhotos}" 
+          SelectedItem="{Binding SelectedFoundPhoto, Mode=TwoWay}" 
+          Grid.Column="3" Grid.Row="0" Grid.ColumnSpan="3"
+          Margin="5">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding FilePath}" />
+
+                        <TextBlock Text=" ✅" 
+                           Visibility="{Binding IsSelected, Converter={StaticResource BoolToVisibilityConverter}}" />
+
+                        <StackPanel.InputBindings>
+                            <MouseBinding Gesture="LeftDoubleClick" 
+                                  Command="{Binding DataContext.SelectFoundPhotoCommand, RelativeSource={RelativeSource AncestorType=ListView}}" 
+                                  CommandParameter="{Binding}" />
+                        </StackPanel.InputBindings>
+                    </StackPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+        <Image Source="{Binding SelectedFoundPhotoImage}" 
+           Grid.Column="3" Grid.Row="1" Grid.RowSpan="2" Grid.ColumnSpan="3"
+           Stretch="Uniform"
+           Margin="10" />
+
+        <Button x:Name="GenerateImages" Content="Generuj obrazy" Click="GenerateImages_Click"
+                Grid.Column="6" Grid.Row="5"/>
+    </Grid>
+</UserControl>
