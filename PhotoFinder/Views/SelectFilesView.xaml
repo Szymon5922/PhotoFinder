@@ -53,7 +53,7 @@
         </DataGrid>
         <Button x:Name="AddTargetFromShp" Grid.Column="0" Grid.Row="2" Click="AddTargetFromShp_Click"
                 Content="Add from SHP" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,5,0" Padding="3"/>
-        <Button x:Name="AddTargetManually" Grid.Column="1" Grid.Row="2" IsEnabled="False"
+        <Button x:Name="AddTargetManually" Grid.Column="1" Grid.Row="2" Command="{Binding AddPointCommand}"
                 Content="Add manually" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,0,0,0" Padding="3"/>
         <Button x:Name="DeleteTarget" Grid.Column="2" Grid.Row="2"
                 Content="Delete" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="3"/>
