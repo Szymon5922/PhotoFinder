@@ -29,7 +29,7 @@
         <TextBlock Grid.Column="3" Grid.Row="0" Grid.ColumnSpan="2" Text="Folders to search:" VerticalAlignment="Bottom" Margin="5"></TextBlock>
         <DataGrid x:Name="Targets" AutoGenerateColumns="False"
                   AllowDrop="True" ItemsSource="{Binding Targets}"
-                  PreviewDragEnter="Targets_DragEnter" PreviewDrop="Targets_Drop"
+                  PreviewDragOver="Targets_PreviewDragOver" Drop="Targets_Drop"
                   Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="1" 
                   VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="5" Padding="5">
             <DataGrid.Columns>

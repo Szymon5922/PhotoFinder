@@ -22,7 +22,7 @@ using System.Windows.Shapes;
 
 namespace PhotoFinder.Views
 {
-    /// <summary>
+    /// <summary>   
     /// Interaction logic for SelectFilesView.xaml
     /// </summary>
     public partial class SelectFilesView : UserControl
@@ -60,9 +60,14 @@ namespace PhotoFinder.Views
         {
             FilesHelper.AllowIfFolder(e);
         }
-        private void Targets_DragEnter(object sender, DragEventArgs e)
+
+        private void Targets_PreviewDragOver(object sender, DragEventArgs e)
         {
-            FilesHelper.AllowwIfSHP(e);
+            if (FilesHelper.AllowIfSHP(e))
+            {
+                e.Effects = DragDropEffects.None;
+                e.Handled = true; 
+            }
         }
 
     }

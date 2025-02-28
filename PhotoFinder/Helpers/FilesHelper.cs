@@ -21,7 +21,7 @@ namespace PhotoFinder.Helpers
             }
             return DragDropEffects.None;
         }
-        public static DragDropEffects AllowwIfSHP(DragEventArgs e)
+        public static bool AllowIfSHP(DragEventArgs e)
         {
             if(e.Data.GetDataPresent(DataFormats.FileDrop))
             {
@@ -29,12 +29,11 @@ namespace PhotoFinder.Helpers
                 
                 foreach(string path in paths)
                 {
-                    if(Path.GetExtension(path)!=".shp")
-                        return DragDropEffects.None;
-
+                    if (Path.GetExtension(path) != ".shp")
+                        return true;
                 }
             }
-            return DragDropEffects.Copy;
+            return false;//not blocking
         }
     }
 
