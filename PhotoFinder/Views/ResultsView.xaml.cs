@@ -24,25 +24,17 @@ namespace PhotoFinder.Views
     public partial class ResultsView : UserControl
     {
         private readonly ResultsViewModel _viewModel;
-        public ResultsView(ResultsViewModel viewModel)
+        private readonly INavigationService _navigationService;
+        public ResultsView(ResultsViewModel viewModel, INavigationService navigationService)
         {
             InitializeComponent();
             _viewModel = viewModel;
+            _navigationService = navigationService;
             DataContext = _viewModel;
         }
-
-        private void GenerateImages_Click(object sender, RoutedEventArgs e)
+        private void Back_Click(object sender, RoutedEventArgs e)
         {
-            var folderDialog = new OpenFolderDialog
-            {
-                // Set options here
-            };
-
-            if (folderDialog.ShowDialog() == true)
-            {
-                var folderName = folderDialog.FolderName;
-                ImageGeneratorService imageGeneratorService = new ImageGeneratorService(_viewModel.Results.ToList(), folderName);
-            }
+            _navigationService.NavigateTo(new SelectFilesView());
         }
     }
 }

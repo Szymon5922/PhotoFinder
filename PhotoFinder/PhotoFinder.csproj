@@ -9,9 +9,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Resources\options.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="DotSpatial.Data" Version="4.0.656" />
     <PackageReference Include="MaterialDesignColors" Version="5.2.1" />
     <PackageReference Include="MaterialDesignThemes" Version="5.2.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Resources\options.png" />
   </ItemGroup>
 
 </Project>
