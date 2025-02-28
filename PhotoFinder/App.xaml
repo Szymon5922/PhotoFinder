@@ -3,7 +3,20 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:PhotoFinder"
              StartupUri="MainWindow.xaml">
-    <Application.Resources>
-         
-    </Application.Resources>
+        <Application.Resources>
+            <ResourceDictionary>
+                <ResourceDictionary.MergedDictionaries>
+                    <!-- Główne style Material Design -->
+                    <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/Generic.xaml"/>
+                    <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Light.xaml"/>
+
+                    <!-- Kolory Material Design -->
+                    <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Primary/MaterialDesignColor.Indigo.xaml"/>
+                </ResourceDictionary.MergedDictionaries>
+
+                <!-- Własne kolory -->
+                <Color x:Key="PrimaryHueMid">#6200EE</Color>
+                <SolidColorBrush x:Key="PrimaryHueMidBrush" Color="{StaticResource PrimaryHueMid}"/>
+            </ResourceDictionary>
+        </Application.Resources>
 </Application>

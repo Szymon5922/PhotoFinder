@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace PhotoFinder.Handlers
 {
-    public static class SHPFolderHandler
+    public static class SHPFileHandler
     {
         public static void LoadData(ObservableCollection<SearchingTarget> target)
         {
@@ -33,6 +33,8 @@ namespace PhotoFinder.Handlers
         {
             List<SearchingTarget> targets = new();
 
+            string directory = Path.GetDirectoryName(shpFilepath);
+
             using (Shapefile shapefile = Shapefile.OpenFile(shpFilepath))
             {
                 var data = shapefile.Attributes.Table;
@@ -45,7 +47,7 @@ namespace PhotoFinder.Handlers
                         SearchingTarget target = new SearchingTarget(GetVector(row));
 
                         if(containsPhotos)
-                            target.ImageDirectory = row["JPG"].ToString();
+                            target.ImageDirectory = Path.Combine(directory,row["JPG"].ToString());
 
                         targets.Add(target);
                     }

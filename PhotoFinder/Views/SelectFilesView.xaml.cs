@@ -1,8 +1,10 @@
 ﻿using PhotoFinder.Handlers;
+using PhotoFinder.Helpers;
 using PhotoFinder.Services;
 using PhotoFinder.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -30,19 +32,36 @@ namespace PhotoFinder.Views
             ViewModel = new SelectFilesViewModel();
             DataContext = ViewModel;
         }
-        private void AddPhotoFolder_Click(object sender, RoutedEventArgs e)
+        private void Targets_Drop(object sender, DragEventArgs e)
         {
-            try
-            { PhotoFolderHandler.LoadData(ViewModel.PhotoFolders); }
-            catch (Exception ex)
-            { MessageBox.Show(ex.Message); }
+            var paths = (string[])e.Data.GetData(DataFormats.FileDrop);
+
+            foreach (var path in paths)
+            {
+                    foreach (var target in SHPFileHandler.ReadFolder(path))
+                        ViewModel.Targets.Add(target);
+            }
         }
-        private void AddTargetFromShp_Click(object sender, RoutedEventArgs e)
+
+        private void PhotoFolders_Drop(object sender, DragEventArgs e)
         {
-            try
-            { SHPFolderHandler.LoadData(ViewModel.Targets); }
-            catch(Exception ex)
-            { MessageBox.Show(ex.Message); }
+            var paths = (string[])e.Data.GetData(DataFormats.FileDrop);
+
+            foreach (var path in paths)
+            {
+                if (Directory.Exists(path) && !ViewModel.PhotoFolders.Any(f => f.Directory == path))
+                    try { ViewModel.PhotoFolders.Add(PhotoFolderHandler.ReadFolder(path)); }
+                    catch (Exception ex) { MessageBox.Show(ex.Message); }
+            }
         }
+        private void PhotoFolders_DragEnter(object sender, DragEventArgs e)
+        {
+            FilesHelper.AllowIfFolder(e);
+        }
+        private void Targets_DragEnter(object sender, DragEventArgs e)
+        {
+            FilesHelper.AllowwIfSHP(e);
+        }
+
     }
 }
