@@ -26,7 +26,8 @@ namespace PhotoFinder.ViewModels
             }
         }
         public ICommand ShowSelectFilesViewCommand { get; }
-        public ICommand ShowResultsViewCommand { get; set; }
+        public ICommand ShowResultsViewCommand { get; }
+        public ICommand OpenOptionsWindowCommand { get; }
         public MainViewModel()
         {
             _navigationService = new NavigationService(this);
@@ -34,6 +35,7 @@ namespace PhotoFinder.ViewModels
 
             ShowSelectFilesViewCommand = new RelayCommand(_ => _navigationService.NavigateTo(new SelectFilesView()));
             ShowResultsViewCommand = new RelayCommand(_ => ProcessData());
+            OpenOptionsWindowCommand = new RelayCommand(_ => OpenOptionsWindow());
         }
 
         private void ProcessData()
@@ -47,7 +49,7 @@ namespace PhotoFinder.ViewModels
                 var results = photoFinderService.GetResults(viewModel.Targets.ToList(), photosData);
                 ResultsViewModel resultsViewModel = new(results);
 
-                _navigationService.NavigateTo(new ResultsView(resultsViewModel));
+                _navigationService.NavigateTo(new ResultsView(resultsViewModel,_navigationService));
             }
         }
 
@@ -55,6 +57,10 @@ namespace PhotoFinder.ViewModels
         protected void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+        private void OpenOptionsWindow()
+        {
+            new OptionsView().Show();
         }
     }
 }

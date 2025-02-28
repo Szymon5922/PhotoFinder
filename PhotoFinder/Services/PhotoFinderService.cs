@@ -32,23 +32,35 @@ namespace PhotoFinder.Services
 
             foreach (var photo in photos)
             {
-                double distance = 0;
+                double distanceFromCamera = double.MaxValue;
+                double distanceFromCenter = double.MaxValue;
+                double yaw = 0;
+                double pitch = 0;
 
-                if (target.IsPointAtPhoto(photo, out distance))
+                if (target.IsPointAtPhoto(photo, out distanceFromCenter, out distanceFromCamera, out yaw, out pitch))
                 {
-                    foundPhotos.Add(new FoundPhoto 
+                    foundPhotos.Add(new FoundPhoto
                     {
                         FilePath = photo.PhotoDirectory,
-                        Distance = distance
+                        Yaw = yaw,
+                        Pitch = pitch,
+                        HFOV = photo.HFOV,
+                        VFOV = photo.VFOV,
+                        DistanceFromCamera = distanceFromCamera,
+                        DistanceFromCenter = distanceFromCenter,
+
                     });
                 }
             }
 
+            foundPhotos = foundPhotos
+                         .Where(p => p.DistanceFromCamera <= 200)
+                         .OrderBy(p => p.DistanceFromCenter)
+                         .ToList();
+
             if (foundPhotos.Any())
-            {
-                foundPhotos = foundPhotos.OrderBy(p => p.Distance).ToList();
                 foundPhotos.First().IsSelected = true;
-            }
+
             return foundPhotos;
         }
     }

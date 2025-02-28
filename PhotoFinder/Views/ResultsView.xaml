@@ -13,6 +13,7 @@
     </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1.75*"/>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
@@ -21,15 +22,16 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
+            <RowDefinition Height="0.5*"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="0.25*"/>
         </Grid.RowDefinitions>
-        
+
         <ListView ItemsSource="{Binding Results}" 
               SelectedItem="{Binding SelectedResult, Mode=TwoWay}" 
-              Grid.Column="0" Grid.Row="0" Grid.RowSpan="3" Margin="5">
+              Grid.Column="0" Grid.Row="0" Grid.RowSpan="4" Margin="5">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">
@@ -42,22 +44,20 @@
         </ListView>
 
         <Image Source="{Binding SelectedImage}" 
-           Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2" Grid.RowSpan="3" 
+           Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2" Grid.RowSpan="4" 
            Stretch="Uniform"
            Margin="10" />
 
         <ListView ItemsSource="{Binding FoundPhotos}" 
           SelectedItem="{Binding SelectedFoundPhoto, Mode=TwoWay}" 
-          Grid.Column="3" Grid.Row="0" Grid.ColumnSpan="3"
+          Grid.Column="3" Grid.Row="0" Grid.ColumnSpan="4"
           Margin="5">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="{Binding FilePath}" />
-
                         <TextBlock Text=" ✅" 
                            Visibility="{Binding IsSelected, Converter={StaticResource BoolToVisibilityConverter}}" />
-
                         <StackPanel.InputBindings>
                             <MouseBinding Gesture="LeftDoubleClick" 
                                   Command="{Binding DataContext.SelectFoundPhotoCommand, RelativeSource={RelativeSource AncestorType=ListView}}" 
@@ -68,12 +68,29 @@
             </ListView.ItemTemplate>
         </ListView>
 
-        <Image Source="{Binding SelectedFoundPhotoImage}" 
-           Grid.Column="3" Grid.Row="1" Grid.RowSpan="2" Grid.ColumnSpan="3"
+        <Image x:Name="ImageControl" Source="{Binding SelectedFoundPhotoImage}" 
+           Grid.Column="3" Grid.Row="1" Grid.RowSpan="3" Grid.ColumnSpan="4"
            Stretch="Uniform"
-           Margin="10" />
+           Margin="10">
+            <Image.InputBindings>
+                <MouseBinding Gesture="LeftClick" Command="{Binding OpenPhotoCommand}"/>
+            </Image.InputBindings>
+        </Image>
 
-        <Button x:Name="GenerateImages" Content="Generate images" Click="GenerateImages_Click"
+        <Button x:Name="GenerateImages" Content="Generuj obrazy" Command="{Binding GenerateImagesCommand}"
                 Grid.Column="6" Grid.Row="5"/>
+
+        <Button x:Name="Back" Content="Wstecz" Click="Back_Click"
+                Grid.Column="0" Grid.Row="5"/>
+
+
+        <Grid Grid.Row="0" Grid.Column="0" Grid.RowSpan="5" Grid.ColumnSpan="7" Margin="10"
+              Visibility="{Binding IsGenerating, Converter={StaticResource BoolToVisibilityConverter}}"             
+          Background="#AA000000">
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                <ProgressBar Minimum="0" Maximum="100" Value="{Binding Progress}" Width="300" Height="20"/>
+                <TextBlock Text="Generowanie obrazów..." Foreground="White" Margin="10" FontSize="16"/>
+            </StackPanel>
+        </Grid>
     </Grid>
 </UserControl>
