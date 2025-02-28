@@ -155,7 +155,7 @@ namespace PhotoFinder.ViewModels
                 await Task.Run(() => imageGeneratorService.GenerateImages(progress));
 
                 IsGenerating = false;
-                MessageBox.Show("Zakończono generowanie");
+                MessageBox.Show("Generating complete");
             }
         }
     }

@@ -25,8 +25,8 @@
             <RowDefinition Height="*"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
-        <TextBlock Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" Text="Obiekty do znalezienia:" VerticalAlignment="Bottom" Margin="5"></TextBlock>
-        <TextBlock Grid.Column="3" Grid.Row="0" Grid.ColumnSpan="2" Text="Foldery do przeszukania:" VerticalAlignment="Bottom" Margin="5"></TextBlock>
+        <TextBlock Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" Text="Targets to find:" VerticalAlignment="Bottom" Margin="5"></TextBlock>
+        <TextBlock Grid.Column="3" Grid.Row="0" Grid.ColumnSpan="2" Text="Folders to search:" VerticalAlignment="Bottom" Margin="5"></TextBlock>
         <DataGrid x:Name="Targets" AutoGenerateColumns="False"
                   AllowDrop="True" ItemsSource="{Binding Targets}"
                   PreviewDragEnter="Targets_DragEnter" PreviewDrop="Targets_Drop"

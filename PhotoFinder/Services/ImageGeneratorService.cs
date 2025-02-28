@@ -79,7 +79,7 @@ namespace PhotoFinder.Services
                 }
             }
 
-            Console.WriteLine("Obraz zapisany w: " + outputPath);
+            Console.WriteLine("Image saved in: " + outputPath);
         }
     }
 }
