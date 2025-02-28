@@ -27,8 +27,9 @@
         </Grid.RowDefinitions>
         <TextBlock Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" Text="Obiekty do znalezienia:" VerticalAlignment="Bottom" Margin="5"></TextBlock>
         <TextBlock Grid.Column="3" Grid.Row="0" Grid.ColumnSpan="2" Text="Foldery do przeszukania:" VerticalAlignment="Bottom" Margin="5"></TextBlock>
-        <DataGrid x:Name="TargetsList" AutoGenerateColumns="False"
-                  ItemsSource="{Binding Targets}"
+        <DataGrid x:Name="Targets" AutoGenerateColumns="False"
+                  AllowDrop="True" ItemsSource="{Binding Targets}"
+                  PreviewDragEnter="Targets_DragEnter" PreviewDrop="Targets_Drop"
                   Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="1" 
                   VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="5" Padding="5">
             <DataGrid.Columns>
@@ -42,27 +43,29 @@
                 <DataGridTextColumn Header="Correlated photo (optional)" Binding="{Binding ImageName}"/>
             </DataGrid.Columns>
         </DataGrid>
-        <DataGrid x:Name="PhotoFoldersList" AutoGenerateColumns="False"
-          Grid.Column="3" Grid.ColumnSpan="3" Grid.Row="1"
-          VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="5" Padding="5"
-          ItemsSource="{Binding PhotoFolders}">
+        <DataGrid x:Name="PhotoFolders" AutoGenerateColumns="False" CanUserAddRows="False"
+                  AllowDrop="True" ItemsSource="{Binding PhotoFolders}"
+                  PreviewDragEnter="PhotoFolders_DragEnter" PreviewDrop="PhotoFolders_Drop"
+                  Grid.Column="3" Grid.ColumnSpan="3" Grid.Row="1"
+                  VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="5" Padding="5">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Photos folder directory" Binding="{Binding Directory}" />
-                <!--<DataGridTextColumn Header="PositionsInfoDirectory" Binding="{Binding PhotosInfos}" Visibility="Collapsed" />-->
             </DataGrid.Columns>
         </DataGrid>
-        <Button x:Name="AddTargetFromShp" Grid.Column="0" Grid.Row="2" Click="AddTargetFromShp_Click"
-                Content="Add from SHP" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,5,0" Padding="3"/>
-        <Button x:Name="AddTargetManually" Grid.Column="1" Grid.Row="2" Command="{Binding AddPointCommand}"
+        <Button x:Name="AddTargetFromShp" Command="{Binding AddTargetsCommand}"
+                Content="Add from SHP" Grid.Column="0" Grid.Row="2" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,5,0" Padding="3"/>
+        <Button x:Name="AddTargetManually" Grid.Column="1" Grid.Row="2" Command="{Binding AddTargetManuallyCommand}"
                 Content="Add manually" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,0,0,0" Padding="3"/>
-        <Button x:Name="DeleteTarget" Grid.Column="2" Grid.Row="2"
+        <Button x:Name="DeleteTarget" Command="{Binding RemoveSelectedTargetsCommand}" CommandParameter="{Binding SelectedItems, ElementName=Targets}"
+                Grid.Column="2" Grid.Row="2" 
                 Content="Delete" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="3"/>
-        <Button x:Name="AddPhotoFolder" Click="AddPhotoFolder_Click"
+        <Button x:Name="AddPhotoFolder" Command="{Binding AddPhotoFoldersCommand}"
                 Grid.Column="4" Grid.Row="2" Content="Add folder" HorizontalAlignment="Center"  VerticalAlignment="Center" Padding="3"/>
-        <Button x:Name="DeletePhotoFolder" Grid.Column="5" Grid.Row="2" Content="Delete"
-                HorizontalAlignment="Center"  VerticalAlignment="Center" Padding="3"/>
-        <Button x:Name="FindPhotos" Content="Find photos" Command="{Binding DataContext.ShowResultsViewCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+        <Button x:Name="DeletePhotoFolder" Command="{Binding RemoveSelectedFoldersCommand}" CommandParameter="{Binding SelectedItems, ElementName=PhotoFolders}"
+                Grid.Column="5" Grid.Row="2" Content="Delete" HorizontalAlignment="Center"  VerticalAlignment="Center" Padding="3"/>
+        <Button x:Name="FindPhotos" Content="Find Photos" Command="{Binding DataContext.ShowResultsViewCommand, RelativeSource={RelativeSource AncestorType=Window}}"
                 Grid.Column="5" Grid.Row="5" Grid.ColumnSpan="1"
                 FontSize="15" Padding="5" HorizontalAlignment="Center" VerticalAlignment="Center"/>
     </Grid>
 </UserControl>
+
