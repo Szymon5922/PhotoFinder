@@ -37,7 +37,7 @@ namespace PhotoFinder.Services
                 double yaw = 0;
                 double pitch = 0;
 
-                if (target.IsPointAtPhoto(photo, out distanceFromCenter, out distanceFromCamera, out yaw, out pitch))
+                if (target.IsPointAtPhoto(photo, out yaw, out pitch))
                 {
                     foundPhotos.Add(new FoundPhoto
                     {
@@ -46,9 +46,8 @@ namespace PhotoFinder.Services
                         Pitch = pitch,
                         HFOV = photo.HFOV,
                         VFOV = photo.VFOV,
-                        DistanceFromCamera = distanceFromCamera,
-                        DistanceFromCenter = distanceFromCenter,
-
+                        DistanceFromCenter = Math.Sqrt(yaw * yaw + pitch * pitch),
+                        DistanceFromCamera = Vector3.Distance(target, photo.CameraPosition)
                     });
                 }
             }
