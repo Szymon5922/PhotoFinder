@@ -12,6 +12,7 @@ namespace PhotoFinder.Services.Reader
 {
     public class AlignmentReadingStrategy : IReadingStrategy
     {
+        private List<string> _expectedValues = new List<string> { "X", "Y", "Z", "FrontX", "FrontY", "FrontZ", "UpX", "UpY", "UpZ", "VFOV", "HFOV", "FileName" };
         private string _directory;
         private readonly IFormatProvider _provider = CultureInfo.InvariantCulture;
         public List<PhotoData> Read(string directory)
@@ -26,6 +27,10 @@ namespace PhotoFinder.Services.Reader
                 {
                     string line;
                     var header = streamReader.ReadLine().Split(',').ToList();
+
+                    if (!IsHeaderComplete(header))
+                        throw new ArgumentException();
+
                     var mapping = GetColumnsIndexes(header);
 
                     while ((line = streamReader.ReadLine()) != null)
@@ -39,7 +44,7 @@ namespace PhotoFinder.Services.Reader
 
             return data;
         }
-        private PhotoData GetPhotoDataFromLine(string[] values, Dictionary<string, int> mapping)
+        public PhotoData GetPhotoDataFromLine(string[] values, Dictionary<string, int> mapping)
         {
             float x = float.Parse(values[mapping["X"]], _provider);
             float y = float.Parse(values[mapping["Y"]], _provider);
@@ -61,34 +66,46 @@ namespace PhotoFinder.Services.Reader
                 Up = new Vector3(upX, upY, upZ),
                 VFOV = vfov,
                 HFOV = hfov,
-                PhotoDirectory = GetPhotoPath(filename)
+                PhotoDirectory = GetPhotoPath(filename),
             };
 
             return photoData;
         }
-        private Dictionary<string, int> GetColumnsIndexes(List<string> header)
+        public Dictionary<string, int> GetColumnsIndexes(List<string> header)
         {
             Dictionary<string, int> columns = new Dictionary<string, int>();
-            string[] values = { "X", "Y", "Z", "FrontX", "FrontY", "FrontZ", "UpX", "UpY", "UpZ", "VFOV", "HFOV", "FileName" };
 
-            foreach (string value in values)
+            foreach (string value in _expectedValues)
                 columns.Add(value, header.IndexOf(value));
 
             return columns;
         }
-        private string GetPhotoPath(string filename)
+        protected virtual string GetPhotoPath(string filename)
         {
             var directoryParts = _directory.Split('\\').ToList();
-            directoryParts.RemoveAt(directoryParts.Count - 1);
 
             if (filename.Contains("FRONT"))
-                directoryParts.Add("FRONT");
+                directoryParts[directoryParts.Count - 1] = "FRONT";
             else if (filename.Contains("REAR"))
-                directoryParts.Add("REAR");
+                directoryParts[directoryParts.Count - 1] = "REAR";
 
             directoryParts.Add(filename);
 
             return String.Join("\\", directoryParts);
         }
+        public bool IsHeaderComplete(List<string> header)
+        {
+            foreach (string value in _expectedValues)
+            {
+                if (!header.Contains(value))
+                {
+                    if (value != "FileName")
+                        return false;
+                }
+            }
+
+            return true;
+        }
     }
 }
+
